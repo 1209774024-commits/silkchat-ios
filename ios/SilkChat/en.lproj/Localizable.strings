@@ -1,0 +1,25 @@
+/* SilkLink iOS — English. Used automatically when the phone system language is English. */
+
+"app_name" = "SilkLink";
+
+/* Notifications */
+"notif_kind_image" = "[Photo]";
+"notif_kind_voice" = "[Voice message]";
+"notif_kind_sticker" = "[Sticker]";
+"notif_kind_game" = "[Game]";
+"notif_friend_req" = "sent you a friend request";
+"notif_call_audio" = "is calling you (voice)";
+"notif_call_video" = "is calling you (video)";
+"notif_apply" = "Someone applied for an account";
+
+/* Shown when the server cannot be reached */
+"offline_title" = "Cannot reach the server";
+"offline_line1" = "First check that your phone has internet";
+"offline_line2" = "If the network is fine, tap below to retry";
+"offline_retry" = "Reconnect";
+"offline_change" = "Wrong server address? Tap to change";
+
+/* Server address dialog */
+"dlg_addr_title" = "Server address";
+"dlg_addr_save" = "Save and reconnect";
+"dlg_cancel" = "Cancel";

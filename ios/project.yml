@@ -1,0 +1,50 @@
+# 丝路通 SilkChat —— 苹果版工程描述。
+#
+# 这份文件不是给苹果看的，是给一个叫 XcodeGen 的小工具看的：
+# 它读这份说明，自动生成苹果开发工具能打开的那个 .xcodeproj 工程文件。
+# 这样工程配置就是纯文本，改起来看得见、能对比、不怕手滑点坏。
+#
+# 生成命令： xcodegen generate
+name: SilkChat
+
+options:
+  bundleIdPrefix: cn.silkchat
+  deploymentTarget:
+    iOS: "15.0"
+  createIntermediateGroups: true
+  developmentLanguage: zh-Hans
+
+targets:
+  SilkChat:
+    type: application
+    platform: iOS
+    sources:
+      - path: SilkChat
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cn.silkchat.app
+        PRODUCT_NAME: SilkChat
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        INFOPLIST_FILE: SilkChat/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # 只出 iPhone 版，不出 iPad 版 —— 界面上那套是按手机调的
+        TARGETED_DEVICE_FAMILY: "1"
+        SWIFT_VERSION: "5.0"
+        # 出包时不签名。签名留到装机那一步，用装机人的苹果账号现签，
+        # 这样这台云端的编译机器不需要任何证书。
+        CODE_SIGN_IDENTITY: ""
+        CODE_SIGNING_REQUIRED: "NO"
+        CODE_SIGNING_ALLOWED: "NO"
+        CODE_SIGN_ENTITLEMENTS: ""
+        DEVELOPMENT_TEAM: ""
+
+schemes:
+  SilkChat:
+    build:
+      targets:
+        SilkChat: all
+    run:
+      config: Release
+    archive:
+      config: Release

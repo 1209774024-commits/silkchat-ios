@@ -1,0 +1,21 @@
+# 凭据与运行时数据 —— 绝不入库
+data/
+deploy/
+tmp/
+
+# 本地调试产物
+.chrome-gh/
+tools/shots/
+tools/shots-dark/
+tools/gh-shots/
+tools/_i18n.txt
+tools/*.md
+
+# 打包产物
+*.apk
+*.ipa
+android/out/
+node_modules/
+
+# 工作区内部
+.workbuddy/

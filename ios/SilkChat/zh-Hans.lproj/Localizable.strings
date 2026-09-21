@@ -1,0 +1,27 @@
+/* 丝路通 苹果版 —— 中文。手机系统是中文，或者系统语言我们没准备时，落到这一份。
+   这些字是"系统画出来的"（通知栏、断网提示页），不归网页管。
+   写死在代码里的话，波斯语用户会一直看到中文。 */
+
+"app_name" = "丝路通";
+
+/* 通知 */
+"notif_kind_image" = "[图片]";
+"notif_kind_voice" = "[语音]";
+"notif_kind_sticker" = "[表情]";
+"notif_kind_game" = "[游戏]";
+"notif_friend_req" = "请求加你为好友";
+"notif_call_audio" = "邀请你语音通话";
+"notif_call_video" = "邀请你视频通话";
+"notif_apply" = "有人申请开通账号";
+
+/* 连不上服务器时的提示页 */
+"offline_title" = "连不上服务器";
+"offline_line1" = "请先看看手机有没有网";
+"offline_line2" = "网络正常的话，点下面重试一次";
+"offline_retry" = "重新连接";
+"offline_change" = "服务器地址不对？点这里改";
+
+/* 改服务器地址的弹窗 */
+"dlg_addr_title" = "服务器地址";
+"dlg_addr_save" = "保存并重连";
+"dlg_cancel" = "取消";

@@ -27,15 +27,25 @@ jobs:
       - name: 安装 XcodeGen（把 project.yml 变成 Xcode 工程）
         run: brew install xcodegen
 
-      - name: 生成 App 图标
+      - name: 检查 App 图标
         run: |
-          # 苹果要求图标必须是 1024x1024。仓库里网页版那张是 512，
-          # 用系统自带的 sips 放大一张出来，不往仓库里塞二进制大图。
+          # 图标是 tools/make-icon.py 用脚本画出来的，1024x1024、方形、不带圆角、不带透明，
+          # 已经跟工程一起提交在仓库里。这里只做检查，不做放大。
+          #
+          # 以前这里是用 sips 把网页版那张 512 放大成 1024 —— 那是错的：
+          # 放大出来的图是糊的，而且原图自带了圆角和留白，苹果再套一层圆角，
+          # 图案会变小一圈。这个坑记在这儿，别再改回去。
           cd ios/SilkChat/Assets.xcassets/AppIcon.appiconset
-          cp "$GITHUB_WORKSPACE/public/icon-512.png" ./src-512.png
-          sips -z 1024 1024 src-512.png --out icon-1024.png
-          rm -f src-512.png
           ls -la
+          for f in icon-1024.png icon-1024-dark.png icon-1024-tinted.png; do
+            test -f "$f" || { echo "缺少图标 $f"; exit 1; }
+            wh=$(sips -g pixelWidth -g pixelHeight "$f" | tr -d ' \n')
+            echo "$f -> $wh"
+            case "$wh" in
+              *pixelWidth:1024*pixelHeight:1024*) ;;
+              *) echo "图标 $f 不是 1024x1024"; exit 1 ;;
+            esac
+          done
 
       - name: 生成 Xcode 工程
         run: |

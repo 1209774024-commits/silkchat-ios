@@ -1,0 +1,77 @@
+# 云端编译苹果安装包。
+#
+# 为什么要云端编：苹果的 App**只能**用苹果电脑上的 Xcode 来编，开发机是 Windows，
+# 本机做不了。GitHub 免费提供 macOS 机器，所以借它来编，编完把安装包作为"产物"
+# 挂出来下载。免费额度足够 —— 一次编译约 3~5 分钟，私有仓库每月 2000 分钟。
+#
+# 产出的 ipa 是**未签名**的：签名留到装机那一步，用装机人自己的苹果账号现签现装。
+# 这样这台云端机器不需要、也拿不到任何证书或密码。
+#
+# 触发方式：网页上点 Actions → 左侧 Build iOS IPA → 右侧 Run workflow。
+
+name: Build iOS IPA
+
+on:
+  push:
+    paths:
+      - 'ios/**'
+      - '.github/workflows/ios.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 XcodeGen（把 project.yml 变成 Xcode 工程）
+        run: brew install xcodegen
+
+      - name: 生成 App 图标
+        run: |
+          # 苹果要求图标必须是 1024x1024。仓库里网页版那张是 512，
+          # 用系统自带的 sips 放大一张出来，不往仓库里塞二进制大图。
+          cd ios/SilkChat/Assets.xcassets/AppIcon.appiconset
+          cp "$GITHUB_WORKSPACE/public/icon-512.png" ./src-512.png
+          sips -z 1024 1024 src-512.png --out icon-1024.png
+          rm -f src-512.png
+          ls -la
+
+      - name: 生成 Xcode 工程
+        run: |
+          cd ios
+          xcodegen generate
+
+      - name: 编译（不签名）
+        run: |
+          cd ios
+          xcodebuild \
+            -project SilkChat.xcodeproj \
+            -scheme SilkChat \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath ./dd \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+          find ./dd/Build/Products -maxdepth 3 -name "SilkChat.app" | head -1
+
+      - name: 打包成 ipa
+        run: |
+          cd ios
+          APP=$(find ./dd/Build/Products -maxdepth 3 -name "SilkChat.app" | head -1)
+          if [ -z "$APP" ]; then echo "!! 没编出 SilkChat.app"; exit 1; fi
+          echo "产物: $APP"
+          rm -rf Payload SilkChat-unsigned.ipa
+          mkdir -p Payload
+          cp -R "$APP" Payload/
+          zip -qry SilkChat-unsigned.ipa Payload
+          ls -la SilkChat-unsigned.ipa
+
+      - name: 挂出安装包供下载
+        uses: actions/upload-artifact@v4
+        with:
+          name: SilkChat-ipa
+          path: ios/SilkChat-unsigned.ipa
+          retention-days: 30

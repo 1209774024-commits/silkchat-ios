@@ -246,7 +246,7 @@ final class Shell: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScrip
                  type: WKMediaCaptureType,
                  decisionHandler: @escaping (WKPermissionDecision) -> Void) {
         // 只对我们自己家的页面放行，别的网站一律不给 —— 别让嵌入的第三方页面偷开摄像头。
-        if isOurs(URL(string: "https://" + origin.host)) {
+        if let host = origin.host, isOurs(URL(string: "https://" + host)) {
             decisionHandler(.grant)
         } else {
             decisionHandler(.deny)

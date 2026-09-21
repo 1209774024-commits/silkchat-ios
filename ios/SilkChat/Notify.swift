@@ -49,7 +49,12 @@ final class Notify: NSObject, UNUserNotificationCenterDelegate {
     static func clearDelivered() {
         let c = UNUserNotificationCenter.current()
         c.removeAllDeliveredNotifications()
-        c.setBadgeCount(0, withCompletionHandler: nil)
+        // 清角标：setBadgeCount 是 iOS 16 才有的，15 上退回老写法。
+        if #available(iOS 16.0, *) {
+            c.setBadgeCount(0, withCompletionHandler: nil)
+        } else {
+            DispatchQueue.main.async { UIApplication.shared.applicationIconBadgeNumber = 0 }
+        }
     }
 
     // MARK: - UNUserNotificationCenterDelegate

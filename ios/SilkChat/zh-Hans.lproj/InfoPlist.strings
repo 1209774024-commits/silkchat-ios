@@ -1,0 +1,15 @@
+/* 丝路通 SilkChat —— 中文（简体）
+ *
+ * 这里放的是「苹果系统自己弹出来的字」，网页里改不到，只能写在这儿：
+ *   1) 桌面图标下面显示的名字
+ *   2) 第一次用摄像头/麦克风/相册时，系统弹窗里那句「为什么需要」
+ * 苹果强制要求第 2 项必须有，缺了会当场闪退。
+ */
+
+"CFBundleDisplayName" = "丝路通";
+"CFBundleName" = "丝路通";
+
+"NSCameraUsageDescription" = "视频通话、拍照片发给对方时，需要用到摄像头。";
+"NSMicrophoneUsageDescription" = "语音通话、录语音消息时，需要用到麦克风。";
+"NSPhotoLibraryUsageDescription" = "发图片时，需要从相册里选照片。";
+"NSPhotoLibraryAddUsageDescription" = "把聊天里的图片存进相册时，需要用一下。";

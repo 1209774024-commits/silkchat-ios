@@ -1,0 +1,15 @@
+/* SilkChat iOS — English
+ *
+ * Text the iOS system itself shows, which the web page cannot control:
+ *   1) the name under the home-screen icon
+ *   2) the "why do you need this" line in the permission popup
+ * Apple requires item 2 to be present, or the app crashes on first use.
+ */
+
+"CFBundleDisplayName" = "SilkLink";
+"CFBundleName" = "SilkLink";
+
+"NSCameraUsageDescription" = "Camera access is needed for video calls and for taking photos to send in chat.";
+"NSMicrophoneUsageDescription" = "Microphone access is needed for voice calls and voice messages.";
+"NSPhotoLibraryUsageDescription" = "Photo access is needed so you can choose pictures to send.";
+"NSPhotoLibraryAddUsageDescription" = "Photo access is needed to save pictures from chat into your album.";
